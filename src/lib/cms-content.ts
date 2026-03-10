@@ -522,8 +522,10 @@ const withPayload = async <T>(
 ) => {
   try {
     const payload = await getPayload()
+    if (!payload) return fallback
     return await runner(payload)
-  } catch {
+  } catch (error) {
+    console.warn('[withPayload-Runtime] Falling back due to Payload error:', error instanceof Error ? error.message : error)
     return fallback
   }
 }

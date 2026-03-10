@@ -24,6 +24,10 @@ if (!cached) {
     cached = globalWithPayload.payload = { client: null, promise: null }
 }
 
+/**
+ * Gets a shared Payload client instance.
+ * Throws an error if the config or client fails to initialize.
+ */
 export const getPayload = async () => {
     if (cached.client) {
         return cached.client
@@ -31,17 +35,24 @@ export const getPayload = async () => {
 
     if (!cached.promise) {
         // Dynamic import to avoid bundling issues
-        const { getPayload: getPayloadLocal } = await import('payload')
-        const config = (await import('@/cms/payload.config')).default
-        cached.promise = getPayloadLocal({ config })
+        try {
+            const { getPayload: getPayloadLocal } = await import('payload')
+            const config = (await import('@/cms/payload.config')).default
+            cached.promise = getPayloadLocal({ config })
+        } catch (e) {
+            cached.promise = null
+            throw e
+        }
     }
 
     try {
-        cached.client = await cached.promise
+        const client = await cached.promise
+        if (!client) throw new Error('Payload client failed to initialize')
+        cached.client = client
+        return client
     } catch (e) {
         cached.promise = null
+        cached.client = null
         throw e
     }
-
-    return cached.client
 }
