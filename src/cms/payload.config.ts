@@ -20,8 +20,8 @@ import { Testimonials, Announcements } from './collections/Social'
 import { Home } from './globals/Home'
 import { About } from './globals/About'
 
-const payloadSecret = process.env.PAYLOAD_SECRET
-const databaseUri = process.env.DATABASE_URI
+const payloadSecret = process.env.PAYLOAD_SECRET || 'fallback-secret-for-build'
+const databaseUri = process.env.DATABASE_URI || 'postgres://localhost:5432/build-placeholder'
 
 // Ensure large uploads are accepted (1 GB)
 process.env.PAYLOAD_UPLOAD_MAX_FILE_SIZE =
@@ -60,18 +60,22 @@ const cloudinaryConfig: CloudinaryEnvConfig = {
     api_secret: cloudinaryFromUrl.api_secret || process.env.CLOUDINARY_API_SECRET || '',
 }
 
-if (!payloadSecret) {
-    throw new Error('Missing required environment variable: PAYLOAD_SECRET')
-}
+const isBuildPhase = process.env.NEXT_PHASE === 'phase-production-build'
 
-if (!databaseUri) {
-    throw new Error('Missing required environment variable: DATABASE_URI')
-}
+if (!isBuildPhase) {
+    if (!payloadSecret) {
+        throw new Error('Missing required environment variable: PAYLOAD_SECRET')
+    }
 
-if (!cloudinaryConfig.cloud_name || !cloudinaryConfig.api_key || !cloudinaryConfig.api_secret) {
-    throw new Error(
-        'Missing Cloudinary credentials: set CLOUDINARY_URL or CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET',
-    )
+    if (!databaseUri) {
+        throw new Error('Missing required environment variable: DATABASE_URI')
+    }
+
+    if (!cloudinaryConfig.cloud_name || !cloudinaryConfig.api_key || !cloudinaryConfig.api_secret) {
+        throw new Error(
+            'Missing Cloudinary credentials: set CLOUDINARY_URL or CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET',
+        )
+    }
 }
 
 export default buildConfig({
