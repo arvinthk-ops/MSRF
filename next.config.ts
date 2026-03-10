@@ -2,6 +2,7 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   // Next.js 16 uses Turbopack by default - no webpack config needed
+  serverExternalPackages: ['@libsql/client', 'pg', 'drizzle-kit', 'esbuild', '@libsql/hrana-client'],
 
   // Optimize package imports for better performance
   experimental: {
