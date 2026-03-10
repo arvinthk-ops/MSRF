@@ -8,6 +8,8 @@ import {
 } from '@payloadcms/next/routes'
 import config from '@payload-config'
 
+export const dynamic = 'force-dynamic'
+
 export const GET = REST_GET(config)
 export const POST = REST_POST(config)
 export const PATCH = REST_PATCH(config)
