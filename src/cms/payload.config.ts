@@ -20,8 +20,9 @@ import { Testimonials, Announcements } from './collections/Social'
 import { Home } from './globals/Home'
 import { About } from './globals/About'
 
-const payloadSecret = process.env.PAYLOAD_SECRET || 'fallback-secret-for-build'
-const databaseUri = process.env.DATABASE_URI || 'postgres://localhost:5432/build-placeholder'
+const isBuildPhase = process.env.NEXT_PHASE === 'phase-production-build'
+const payloadSecret = process.env.PAYLOAD_SECRET || (isBuildPhase ? 'fallback-secret-for-build' : undefined)
+const databaseUri = process.env.DATABASE_URI || (isBuildPhase ? 'postgres://localhost:5432/build-placeholder' : undefined)
 
 // Ensure large uploads are accepted (1 GB)
 process.env.PAYLOAD_UPLOAD_MAX_FILE_SIZE =
@@ -60,7 +61,6 @@ const cloudinaryConfig: CloudinaryEnvConfig = {
     api_secret: cloudinaryFromUrl.api_secret || process.env.CLOUDINARY_API_SECRET || '',
 }
 
-const isBuildPhase = process.env.NEXT_PHASE === 'phase-production-build'
 
 if (!isBuildPhase) {
     if (!payloadSecret) {
@@ -139,7 +139,7 @@ export default buildConfig({
     ],
     globals: [Home, About],
     editor: lexicalEditor({}),
-    secret: payloadSecret,
+    secret: payloadSecret as string,
     typescript: {
         outputFile: path.resolve(dirname, 'payload-types.ts'),
     },
@@ -147,7 +147,7 @@ export default buildConfig({
         // Sync schema from Payload config to Postgres at startup.
         push: true,
         pool: {
-            connectionString: databaseUri,
+            connectionString: databaseUri as string,
             max: 10,
             idleTimeoutMillis: 10_000,
             connectionTimeoutMillis: 5_000,
