@@ -1,26 +1,160 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-@theme inline {
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+  opacity: 0.8;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+}
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+
+  --animate-scroll: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-selection: var(--selection);
 }
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #F8F9FA;
+    --foreground: #020617;
+
+    --primary: #FABC08;
+    --primary-rgb: 183, 138, 2;
+    /* Theme Gold */
+    --primary-foreground: #020617;
+
+    --secondary: #065F46;
+    /* MCFC Green */
+    --secondary-foreground: #ffffff;
+
+    --accent: #FABC08;
+    --accent-foreground: #020617;
+
+    --card: #ffffff;
+    --card-foreground: #020617;
+
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #FABC08;
+    --selection: #FABC08;
+
+    --blueprint-grid: rgba(2, 6, 23, 0.03);
+  }
+
+  [data-theme="dark"] {
+    --background: #000000;
+    /* Pure Black */
+    --foreground: #f8fafc;
+
+    --primary: #B78A02;
+    --primary-rgb: 250, 188, 8;
+    --primary-foreground: #020617;
+
+    --secondary: #065F46;
+    --secondary-foreground: #ffffff;
+
+    --card: #000000;
+    --card-foreground: #f8fafc;
+
+    --border: #1a1a1a;
+    --input: #1a1a1a;
+    --ring: #FABC08;
+    --selection: #FABC08;
+
+    --blueprint-grid: rgba(250, 188, 8, 0.03);
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-image:
+      linear-gradient(var(--blueprint-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-attachment: fixed;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .text-outline-brand {
+    -webkit-text-stroke: 1px var(--primary);
+    color: transparent;
+  }
+
+  .text-outline-pitch {
+    -webkit-text-stroke: 3px var(--primary);
+    color: transparent;
+    opacity: 1;
+  }
+
+  .glass-card {
+    @apply backdrop-blur-xl bg-background/40 border border-border/50;
+  }
+
+  .blueprint-marker {
+    @apply absolute w-4 h-4 border-t border-l border-primary/40;
+  }
+
+  .speed-streak {
+    @apply relative overflow-hidden;
+  }
+
+  .speed-streak::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent -translate-x-full animate-[streak_3s_infinite];
+  }
+
+  @keyframes streak {
+    0% {
+      transform: translateX(-100%);
+    }
+
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(calc(-50% - 0.5rem));
+    }
+  }
 }

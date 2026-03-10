@@ -1,0 +1,881 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --mcfc-gold: #D4A843;
+    --mcfc-gold-hover: #e0b84f;
+    --mcfc-gold-light: rgba(212, 168, 67, 0.12);
+    --mcfc-navy: #0a0e1a;
+    --mcfc-navy-light: #111827;
+    --mcfc-surface: #1e293b;
+    --mcfc-surface-hover: #273548;
+    --mcfc-border: rgba(212, 168, 67, 0.1);
+    --mcfc-border-light: rgba(212, 168, 67, 0.2);
+    --mcfc-text: #e2e8f0;
+    --mcfc-text-secondary: #94a3b8;
+    --mcfc-text-muted: #64748b;
+    --mcfc-success: #10b981;
+    --mcfc-error: #f43f5e;
+    --mcfc-radius: 12px;
+    --mcfc-radius-sm: 8px;
+    --mcfc-radius-xs: 6px;
+    --mcfc-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+    --mcfc-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+    --mcfc-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --mcfc-font-sans: 'Fira Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --mcfc-font-mono: 'Fira Code', monospace;
+
+    /* Glassmorphism Tokens */
+    --glass-bg: rgba(10, 14, 26, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-blur: 20px;
+}
+
+/* ═══════════════════════════════════════════
+   2. GLOBAL OVERRIDES
+   ═══════════════════════════════════════════ */
+
+/* Respect light/dark toggle instead of forcing dark everywhere */
+html {
+    font-family: var(--mcfc-font-sans) !important;
+}
+
+[data-theme="dark"] {
+    --theme-bg: var(--mcfc-navy);
+    --theme-input-bg: var(--mcfc-navy-light);
+    --theme-elevation-0: var(--mcfc-navy);
+    --theme-elevation-50: #0d1321;
+    --theme-elevation-100: var(--mcfc-navy-light);
+    --theme-elevation-150: #1a2332;
+    --theme-elevation-200: var(--mcfc-surface);
+    --theme-elevation-250: #253244;
+    --theme-elevation-300: #2d3b4f;
+    --theme-elevation-350: #344459;
+    --theme-elevation-400: #3b4d63;
+    --theme-elevation-450: #475c73;
+    --theme-elevation-500: var(--mcfc-text-muted);
+    --theme-elevation-550: #7a8da3;
+    --theme-elevation-600: #8b9db3;
+    --theme-elevation-650: var(--mcfc-text-secondary);
+    --theme-elevation-700: #a8b8cc;
+    --theme-elevation-750: #b9c5d6;
+    --theme-elevation-800: #c9d3e0;
+    --theme-elevation-850: #d4dde8;
+    --theme-elevation-900: var(--mcfc-text);
+    --theme-elevation-950: #eef2f7;
+    --theme-elevation-1000: #f8fafc;
+    --theme-text: var(--mcfc-text);
+    --theme-success-500: var(--mcfc-success);
+    --theme-error-500: var(--mcfc-error);
+    --theme-warning-500: #f59e0b;
+    color: var(--mcfc-text);
+    background: var(--mcfc-navy);
+}
+
+[data-theme="light"] {
+    --theme-bg: #f8fafc;
+    --theme-input-bg: #ffffff;
+    --theme-elevation-0: #ffffff;
+    --theme-elevation-50: #f1f5f9;
+    --theme-elevation-100: #e2e8f0;
+    --theme-elevation-150: #e5e7eb;
+    --theme-elevation-200: #e7ecf5;
+    --theme-elevation-250: #dfe8f3;
+    --theme-elevation-300: #d7e2ee;
+    --theme-elevation-350: #cfdbea;
+    --theme-elevation-400: #c5d3e4;
+    --theme-elevation-450: #b8c9dd;
+    --theme-elevation-500: #94a3b8;
+    --theme-elevation-550: #7c8ca3;
+    --theme-elevation-600: #667a92;
+    --theme-elevation-650: #475569;
+    --theme-elevation-700: #334155;
+    --theme-elevation-750: #1f2937;
+    --theme-elevation-800: #111827;
+    --theme-elevation-850: #0f172a;
+    --theme-elevation-900: #0b1222;
+    --theme-elevation-950: #070d1a;
+    --theme-elevation-1000: #050a14;
+    --theme-text: #0f172a;
+    --theme-success-500: var(--mcfc-success);
+    --theme-error-500: var(--mcfc-error);
+    --theme-warning-500: #b45309;
+    color: #0f172a;
+    background: #f8fafc;
+}
+
+body {
+    background: var(--theme-bg);
+    color: var(--theme-text);
+}
+
+/* ═══════════════════════════════════════════
+   3. SCROLLBAR
+   ═══════════════════════════════════════════ */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--mcfc-navy);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--mcfc-border-light);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--mcfc-text-muted);
+}
+
+/* ═══════════════════════════════════════════
+   4. SIDEBAR / NAV
+   ═══════════════════════════════════════════ */
+
+.nav {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(var(--glass-blur)) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
+    border-right: 1px solid var(--mcfc-border) !important;
+    scrollbar-width: thin;
+}
+
+.nav__wrapper {
+    background: transparent !important;
+}
+
+/* Nav links */
+.nav-group__link,
+.nav__link {
+    border-radius: var(--mcfc-radius-xs) !important;
+    margin: 4px 12px !important;
+    padding: 10px 16px !important;
+    color: var(--mcfc-text-secondary) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    transition: all var(--mcfc-transition) !important;
+    cursor: pointer !important;
+}
+
+.nav-group__link:hover,
+.nav__link:hover {
+    background: var(--mcfc-surface) !important;
+    color: var(--mcfc-text) !important;
+    transform: translateX(4px);
+}
+
+.nav-group__link--active,
+.nav__link--active,
+.nav-group__link.active,
+.nav__link.active {
+    background: var(--mcfc-gold-light) !important;
+    color: var(--mcfc-gold) !important;
+    font-weight: 600 !important;
+    border-left: 3px solid var(--mcfc-gold) !important;
+}
+
+/* ═══════════════════════════════════════════
+   5. HEADER / TOPBAR
+   ═══════════════════════════════════════════ */
+
+.app-header {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%) !important;
+    border-bottom: 1px solid var(--mcfc-border) !important;
+}
+
+.app-header__search input {
+    background: rgba(10, 14, 26, 0.4) !important;
+    border: 1px solid var(--mcfc-border) !important;
+    border-radius: var(--mcfc-radius-sm) !important;
+    color: var(--mcfc-text) !important;
+    font-size: 14px !important;
+    transition: all var(--mcfc-transition) !important;
+}
+
+.app-header__search input:focus {
+    border-color: var(--mcfc-gold) !important;
+    background: rgba(10, 14, 26, 0.6) !important;
+    box-shadow: 0 0 0 3px var(--mcfc-gold-light) !important;
+}
+
+.app-header__search input::placeholder {
+    color: var(--mcfc-text-muted) !important;
+}
+
+/* ═══════════════════════════════════════════
+   6. BUTTONS
+   ═══════════════════════════════════════════ */
+
+.btn {
+    border-radius: var(--mcfc-radius-sm) !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    transition: all var(--mcfc-transition) !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+}
+
+/* Primary button → MCFC Gold */
+.btn--style-primary {
+    background: var(--mcfc-gold) !important;
+    color: var(--mcfc-navy) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.btn--style-primary:hover {
+    background: var(--mcfc-gold-hover) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(212, 168, 67, 0.3) !important;
+}
+
+/* Secondary button */
+.btn--style-secondary {
+    background: rgba(30, 41, 59, 0.4) !important;
+    backdrop-filter: blur(8px) !important;
+    color: var(--mcfc-text) !important;
+    border: 1px solid var(--mcfc-border-light) !important;
+}
+
+.btn--style-secondary:hover {
+    background: var(--mcfc-surface-hover) !important;
+    border-color: var(--mcfc-gold) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Pill buttons (filters, status) */
+.pill {
+    border-radius: 20px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+
+/* ═══════════════════════════════════════════
+   7. CARDS / PANELS
+   ═══════════════════════════════════════════ */
+
+.card,
+.document-fields,
+.collection-list {
+    background: rgba(17, 24, 39, 0.4) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid var(--mcfc-border) !important;
+    border-radius: var(--mcfc-radius) !important;
+    box-shadow: var(--mcfc-shadow) !important;
+}
+
+/* Dashboard collection cards */
+.dashboard__card-list .card {
+    background: rgba(17, 24, 39, 0.4) !important;
+    border: 1px solid var(--mcfc-border) !important;
+    transition: all var(--mcfc-transition) !important;
+    cursor: pointer !important;
+}
+
+.dashboard__card-list .card:hover {
+    border-color: var(--mcfc-gold) !important;
+    background: rgba(17, 24, 39, 0.6) !important;
+    box-shadow: var(--mcfc-shadow-lg) !important;
+    transform: translateY(-4px) !important;
+}
+
+.dashboard__label {
+    color: var(--mcfc-text) !important;
+    font-weight: 600 !important;
+    font-size: 15px !important;
+    letter-spacing: 0.2px !important;
+}
+
+/* ═══════════════════════════════════════════
+   8. TABLES (Collection List Views)
+   ═══════════════════════════════════════════ */
+
+.table {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+
+.table thead {
+    background: rgba(10, 14, 26, 0.6) !important;
+}
+
+.table th {
+    color: var(--mcfc-text-muted) !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    border-bottom: 2px solid var(--mcfc-border) !important;
+    padding: 16px !important;
+}
+
+.table td {
+    color: var(--mcfc-text) !important;
+    font-size: 14px !important;
+    border-bottom: 1px solid var(--mcfc-border) !important;
+    padding: 16px !important;
+}
+
+.table tbody tr:hover {
+    background: rgba(212, 168, 67, 0.04) !important;
+}
+
+/* First column (usually the title) — MCFC Gold link */
+.table .cell-title,
+.table td:first-child a {
+    color: var(--mcfc-gold) !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    transition: all var(--mcfc-transition) !important;
+}
+
+.table .cell-title:hover,
+.table td:first-child a:hover {
+    color: var(--mcfc-gold-hover) !important;
+}
+
+/* Row selection checkboxes */
+.table .select-row {
+    accent-color: var(--mcfc-gold) !important;
+}
+
+/* ═══════════════════════════════════════════
+   9. FORMS
+   ═══════════════════════════════════════════ */
+
+.field-type {
+    margin-bottom: 20px !important;
+}
+
+.field-type .field-label,
+label {
+    color: var(--mcfc-text-secondary) !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 6px !important;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="url"],
+input[type="tel"],
+input[type="search"],
+input[type="date"],
+select,
+textarea,
+.text-input,
+.textarea-input,
+.select__control {
+    background: rgba(10, 14, 26, 0.3) !important;
+    border: 1px solid var(--mcfc-border-light) !important;
+    border-radius: var(--mcfc-radius-sm) !important;
+    color: var(--mcfc-text) !important;
+    font-size: 14px !important;
+    padding: 12px 16px !important;
+    transition: all var(--mcfc-transition) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+.text-input:focus,
+.select__control--is-focused {
+    border-color: var(--mcfc-gold) !important;
+    background: rgba(10, 14, 26, 0.5) !important;
+    box-shadow: 0 0 0 4px var(--mcfc-gold-light) !important;
+    outline: none !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--mcfc-text-muted) !important;
+}
+
+/* Rich text editor */
+.rich-text .editor-shell {
+    background: var(--mcfc-navy) !important;
+    border: 1px solid var(--mcfc-border-light) !important;
+    border-radius: var(--mcfc-radius-sm) !important;
+}
+
+/* ═══════════════════════════════════════════
+   10. DOCUMENT HEADER (Edit View)
+   ═══════════════════════════════════════════ */
+
+.doc-header {
+    border-bottom: 1px solid var(--mcfc-border) !important;
+}
+
+.doc-header__title h1 {
+    color: var(--mcfc-text) !important;
+    font-weight: 700 !important;
+    font-size: 24px !important;
+}
+
+/* Save/Publish button */
+.doc-controls__save .btn {
+    background: var(--mcfc-gold) !important;
+    color: var(--mcfc-navy) !important;
+}
+
+.doc-controls__save .btn:hover {
+    background: var(--mcfc-gold-hover) !important;
+}
+
+/* ═══════════════════════════════════════════
+   11. PAGINATION
+   ═══════════════════════════════════════════ */
+
+.paginator {
+    border-top: 1px solid var(--mcfc-border) !important;
+}
+
+.paginator button,
+.paginator .clickable-arrow {
+    background: var(--mcfc-surface) !important;
+    border: 1px solid var(--mcfc-border-light) !important;
+    border-radius: var(--mcfc-radius-xs) !important;
+    color: var(--mcfc-text-secondary) !important;
+    cursor: pointer !important;
+    transition: all var(--mcfc-transition) !important;
+}
+
+.paginator button:hover,
+.paginator .clickable-arrow:hover {
+    background: var(--mcfc-surface-hover) !important;
+    border-color: var(--mcfc-gold) !important;
+    color: var(--mcfc-gold) !important;
+}
+
+.paginator .clickable-arrow--is-active {
+    background: var(--mcfc-gold) !important;
+    color: var(--mcfc-navy) !important;
+    border-color: var(--mcfc-gold) !important;
+}
+
+/* ═══════════════════════════════════════════
+   12. MODALS / DRAWERS
+   ═══════════════════════════════════════════ */
+
+.modal__wrapper,
+.drawer__content {
+    background: var(--mcfc-navy-light) !important;
+    border: 1px solid var(--mcfc-border) !important;
+    border-radius: var(--mcfc-radius) !important;
+}
+
+.modal__blur-bg {
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(4px) !important;
+}
+
+/* ═══════════════════════════════════════════
+   13. TOASTS / NOTIFICATIONS
+   ═══════════════════════════════════════════ */
+
+.toast-container .toast {
+    background: var(--mcfc-surface) !important;
+    border: 1px solid var(--mcfc-border-light) !important;
+    border-radius: var(--mcfc-radius-sm) !important;
+    color: var(--mcfc-text) !important;
+    box-shadow: var(--mcfc-shadow-lg) !important;
+}
+
+.toast--success {
+    border-left: 3px solid var(--mcfc-success) !important;
+}
+
+.toast--error {
+    border-left: 3px solid var(--mcfc-error) !important;
+}
+
+/* ═══════════════════════════════════════════
+   14. TABS
+   ═══════════════════════════════════════════ */
+
+.tabs-field__tab-button {
+    color: var(--mcfc-text-muted) !important;
+    border-bottom: 2px solid transparent !important;
+    transition: all var(--mcfc-transition) !important;
+}
+
+.tabs-field__tab-button:hover {
+    color: var(--mcfc-text) !important;
+}
+
+.tabs-field__tab-button--active {
+    color: var(--mcfc-gold) !important;
+    border-bottom-color: var(--mcfc-gold) !important;
+}
+
+/* ═══════════════════════════════════════════
+   15. UPLOAD / MEDIA
+   ═══════════════════════════════════════════ */
+
+.upload__dropzone {
+    background: var(--mcfc-navy) !important;
+    border: 2px dashed var(--mcfc-border-light) !important;
+    border-radius: var(--mcfc-radius) !important;
+    transition: all var(--mcfc-transition) !important;
+}
+
+.upload__dropzone:hover,
+.upload__dropzone--dragging {
+    border-color: var(--mcfc-gold) !important;
+    background: var(--mcfc-gold-light) !important;
+}
+
+/* ═══════════════════════════════════════════
+   16. RELATIONSHIP FIELD
+   ═══════════════════════════════════════════ */
+
+.relationship--has-many .rs__control {
+    background: var(--mcfc-navy) !important;
+    border-color: var(--mcfc-border-light) !important;
+}
+
+.rs__menu {
+    background: var(--mcfc-navy-light) !important;
+    border: 1px solid var(--mcfc-border-light) !important;
+    border-radius: var(--mcfc-radius-sm) !important;
+    box-shadow: var(--mcfc-shadow-lg) !important;
+}
+
+.rs__option {
+    color: var(--mcfc-text) !important;
+    transition: background var(--mcfc-transition) !important;
+}
+
+.rs__option--is-focused {
+    background: var(--mcfc-surface) !important;
+}
+
+.rs__option--is-selected {
+    background: var(--mcfc-gold-light) !important;
+    color: var(--mcfc-gold) !important;
+}
+
+/* ═══════════════════════════════════════════
+   17. STATUS INDICATORS
+   ═══════════════════════════════════════════ */
+
+.status-indicator--draft {
+    background: var(--mcfc-text-muted) !important;
+}
+
+.status-indicator--published {
+    background: var(--mcfc-success) !important;
+}
+
+/* ═══════════════════════════════════════════
+   18. SEARCH / FILTER BAR
+   ═══════════════════════════════════════════ */
+
+.search-filter {
+    background: var(--mcfc-navy-light) !important;
+    border: 1px solid var(--mcfc-border) !important;
+    border-radius: var(--mcfc-radius-sm) !important;
+}
+
+.search-filter__input {
+    background: transparent !important;
+    color: var(--mcfc-text) !important;
+}
+
+.where-builder__add-first-filter {
+    color: var(--mcfc-gold) !important;
+}
+
+/* ═══════════════════════════════════════════
+   19. LOADING STATES
+   ═══════════════════════════════════════════ */
+
+.loading-overlay {
+    background: rgba(10, 14, 26, 0.7) !important;
+    backdrop-filter: blur(4px) !important;
+}
+
+.loading-overlay__spinner {
+    border-color: var(--mcfc-border-light) !important;
+    border-top-color: var(--mcfc-gold) !important;
+}
+
+/* ═══════════════════════════════════════════
+   20. ACCOUNT / SETTINGS PANEL
+   ═══════════════════════════════════════════ */
+
+.account__header {
+    background: var(--mcfc-navy-light) !important;
+}
+
+/* ═══════════════════════════════════════════
+   21. MCFC DASHBOARD WIDGETS
+   (Styles for our custom beforeDashboard)
+   ═══════════════════════════════════════════ */
+
+.mcfc-widgets {
+    padding: 0 0 32px;
+}
+
+/* Welcome Banner */
+.mcfc-welcome {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 32px;
+    background: linear-gradient(135deg, var(--mcfc-navy-light) 0%, var(--mcfc-surface) 100%);
+    border: 1px solid var(--mcfc-border);
+    border-radius: var(--mcfc-radius);
+    margin-bottom: 24px;
+}
+
+.mcfc-welcome__title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--mcfc-text);
+    margin: 0 0 6px;
+}
+
+.mcfc-welcome__text {
+    font-size: 14px;
+    color: var(--mcfc-text-secondary);
+    margin: 0;
+    max-width: 500px;
+}
+
+.mcfc-welcome__badge {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--mcfc-gold-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+}
+
+/* Stats Grid */
+.mcfc-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.mcfc-stat-card {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 24px;
+    background: var(--mcfc-navy-light);
+    border: 1px solid var(--mcfc-border);
+    border-radius: var(--mcfc-radius);
+    text-decoration: none;
+    color: inherit;
+    transition: all var(--mcfc-transition);
+    cursor: pointer;
+}
+
+.mcfc-stat-card:hover {
+    border-color: var(--mcfc-gold);
+    transform: translateY(-2px);
+    box-shadow: var(--mcfc-shadow);
+}
+
+.mcfc-stat-card__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--mcfc-gold-light);
+    color: var(--mcfc-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.mcfc-stat-card__value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--mcfc-text);
+    letter-spacing: -1px;
+    line-height: 1;
+}
+
+.mcfc-stat-card__label {
+    font-size: 13px;
+    color: var(--mcfc-text-secondary);
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.mcfc-stat-card__change {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--mcfc-border);
+}
+
+.mcfc-stat-card__change.up {
+    color: var(--mcfc-success);
+}
+
+.mcfc-stat-card__change.down {
+    color: var(--mcfc-text-muted);
+}
+
+/* Quick Actions */
+.mcfc-quick-actions {
+    margin-bottom: 8px;
+}
+
+.mcfc-quick-actions__title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--mcfc-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 12px;
+}
+
+.mcfc-quick-actions__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.mcfc-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    background: var(--mcfc-navy-light);
+    border: 1px solid var(--mcfc-border);
+    border-radius: var(--mcfc-radius-sm);
+    color: var(--mcfc-text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all var(--mcfc-transition);
+    cursor: pointer;
+}
+
+.mcfc-action-btn:hover {
+    background: var(--mcfc-surface);
+    border-color: var(--mcfc-gold);
+    color: var(--mcfc-gold);
+}
+
+.mcfc-action-btn svg:last-child {
+    margin-left: auto;
+    opacity: 0;
+    transition: opacity var(--mcfc-transition), transform var(--mcfc-transition);
+}
+
+.mcfc-action-btn:hover svg:last-child {
+    opacity: 1;
+    transform: translateX(2px);
+}
+
+/* ═══════════════════════════════════════════
+   22. AFTER NAV LINKS (Custom Footer)
+   ═══════════════════════════════════════════ */
+
+.mcfc-nav-footer {
+    padding: 12px 8px;
+    border-top: 1px solid var(--mcfc-border);
+    margin-top: 8px;
+}
+
+.mcfc-nav-footer__link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: var(--mcfc-radius-xs);
+    color: var(--mcfc-text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all var(--mcfc-transition);
+}
+
+.mcfc-nav-footer__link:hover {
+    background: var(--mcfc-surface);
+    color: var(--mcfc-gold);
+}
+
+/* ═══════════════════════════════════════════
+   23. RESPONSIVE
+   ═══════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+    .mcfc-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mcfc-quick-actions__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mcfc-welcome {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .mcfc-welcome__badge {
+        display: none;
+    }
+
+    .mcfc-stat-card__value {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mcfc-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ═══════════════════════════════════════════
+   24. ANIMATION / POLISH
+   ═══════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: no-preference) {
+
+    .mcfc-stat-card,
+    .mcfc-action-btn,
+    .dashboard__card-list .card,
+    .btn {
+        transition: all var(--mcfc-transition);
+    }
+}
+
+/* Smooth focus rings globally */
+*:focus-visible {
+    outline: 2px solid var(--mcfc-gold) !important;
+    outline-offset: 2px !important;
+    border-radius: 4px;
+}
+
+/* Selection color */
+::selection {
+    background: var(--mcfc-gold);
+    color: var(--mcfc-navy);
+}
