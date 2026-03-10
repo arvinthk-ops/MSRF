@@ -20,7 +20,7 @@ export async function GET() {
         const mediaIdsToDelete: string[] = []
 
         // 2. Collect media IDs from academyOffers
-        home.academyOffers.forEach((offer: any) => {
+        home.academyOffers.forEach((offer) => {
             if (offer.image && typeof offer.image === 'object' && offer.image.id) {
                 mediaIdsToDelete.push(offer.image.id)
             } else if (typeof offer.image === 'string') {
@@ -55,8 +55,9 @@ export async function GET() {
             status: 'success',
             message: `Successfully cleared ${mediaIdsToDelete.length} media assets and reset Academy Offers data.`
         })
-    } catch (error: any) {
+    } catch (error) {
         console.error('[Cleanup Error]', error)
-        return NextResponse.json({ status: 'error', message: error.message }, { status: 500 })
+        const message = error instanceof Error ? error.message : 'Unknown error'
+        return NextResponse.json({ status: 'error', message }, { status: 500 })
     }
 }
