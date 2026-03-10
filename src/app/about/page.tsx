@@ -14,7 +14,7 @@ export default async function AboutPage() {
                 aboutData={aboutData}
                 visionItems={visionItems}
                 missionItems={missionItems}
-                partners={partners as any}
+                partners={partners}
             />
             <Footer />
         </main>

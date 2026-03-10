@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { WobbleCard } from "@/components/ui/wobble-card";
@@ -305,9 +306,11 @@ export default function AboutClient({ aboutData, visionItems, missionItems, part
                                     {partner.link ? (
                                         <a href={partner.link} target="_blank" rel="noopener noreferrer" className="block text-center space-y-3">
                                             <div className="h-12 md:h-16 w-auto grayscale group-hover:grayscale-0 transition-all duration-500 flex items-center justify-center">
-                                                <img
+                                                <Image
                                                     src={partner.logoUrl}
                                                     alt={partner.name}
+                                                    width={150}
+                                                    height={64}
                                                     className="h-full w-auto object-contain max-w-[150px]"
                                                 />
                                             </div>
@@ -316,9 +319,11 @@ export default function AboutClient({ aboutData, visionItems, missionItems, part
                                     ) : (
                                         <div className="text-center space-y-3 px-4">
                                             <div className="h-12 md:h-16 w-auto flex items-center justify-center">
-                                                <img
+                                                <Image
                                                     src={partner.logoUrl}
                                                     alt={partner.name}
+                                                    width={150}
+                                                    height={64}
                                                     className="h-full w-auto object-contain grayscale max-w-[150px]"
                                                 />
                                             </div>
