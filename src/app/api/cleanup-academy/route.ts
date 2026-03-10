@@ -2,6 +2,8 @@ import { getPayload } from 'payload'
 import config from '@/cms/payload.config'
 import { NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
     try {
         const payload = await getPayload({ config })
